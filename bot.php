@@ -1,6 +1,6 @@
 <?php
 
-$botNumber = "+972547566508"; // תחליף למספר שלך
+$botNumber = "+972547466508"; // תחליף למספר שלך
 
 function sendMessage($msg, $to) {
     global $botNumber;
