@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Starting Signal bot..."
+
+# לופ אינסופי שיריץ את הבוט
+while true
+do
+    php /app/bot.php
+    sleep 2
+done
