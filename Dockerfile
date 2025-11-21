@@ -1,23 +1,30 @@
-FROM ubuntu:22.04
+FROM debian:12-slim
 
 # עדכונים
-RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get upgrade -y
 
-# התקנת PHP + כל מה שצריך
-RUN apt install -y php php-cli php-mbstring php-xml curl wget unzip default-jre bash
+# התקנת כלים בסיסיים + Java + PHP
+RUN apt-get install -y \
+    php-cli \
+    php-mbstring \
+    php-xml \
+    curl \
+    wget \
+    unzip \
+    default-jre-headless \
+    bash
 
 # התקנת signal-cli
-RUN wget https://github.com/AsamK/signal-cli/releases/download/v0.11.10/signal-cli-0.11.10-Linux.tar.gz && \
-    tar -xvzf signal-cli-0.11.10-Linux.tar.gz && \
-    mv signal-cli-0.11.10 /opt/signal-cli && \
-    ln -s /opt/signal-cli/bin/signal-cli /usr/local/bin/signal-cli
+WORKDIR /opt
+RUN wget https://github.com/AsamK/signal-cli/releases/download/v0.11.10/signal-cli-0.11.10-Linux.tar.gz \
+    && tar -xzf signal-cli-0.11.10-Linux.tar.gz \
+    && mv signal-cli-0.11.10 signal-cli \
+    && ln -s /opt/signal-cli/bin/signal-cli /usr/local/bin/signal-cli
 
-# הוספת קבצי הבוט
+# תיקיית עבודה לבוט
 WORKDIR /app
 COPY . .
 
-# ודא שהסקריפט ניתן להרצה
 RUN chmod +x start.sh
 
-# סטארט פקודה שמריצה את הבוט
 CMD ["bash", "start.sh"]
